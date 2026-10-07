@@ -83,8 +83,13 @@ for (const source of selected) {
 }
 
 matches.sort((a, b) => {
-  if (a.hasXmltvId !== b.hasXmltvId) return a.hasXmltvId ? -1 : 1
-  return a.source.site.localeCompare(b.source.site) || a.line.localeCompare(b.line)
+  const rank = source => sources.findIndex(item => item.site === source.site)
+  return (
+    relevance(a) - relevance(b) ||
+    Number(b.hasXmltvId) - Number(a.hasXmltvId) ||
+    rank(a.source) - rank(b.source) ||
+    a.line.localeCompare(b.line)
+  )
 })
 
 const shown = matches.slice(0, limit)
@@ -111,6 +116,20 @@ for (const match of shown) {
 if (matches.length > shown.length) {
   console.log('')
   console.log(`Results truncated. Raise the cap with --limit=${Math.min(matches.length, 200)}.`)
+}
+
+function relevance(match) {
+  const id = attribute(match.line, 'xmltv_id').toLowerCase()
+  const name = match.line.replace(/<[^>]+>/g, '').trim().toLowerCase()
+  const baseId = id.split('@')[0]
+  if (baseId === needle || baseId.startsWith(`${needle}.`) || id.startsWith(`${needle}@`)) return 0
+  if (name === needle || name.startsWith(`${needle} `) || name.startsWith(`${needle}-`)) return 1
+  return 2
+}
+
+function attribute(line, name) {
+  const match = line.match(new RegExp(`${name}="([^"]*)"`))
+  return match ? match[1] : ''
 }
 
 function printHelp() {
