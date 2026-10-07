@@ -17,6 +17,8 @@
     "workers:load": "tsx scripts/commands/workers/load.ts",
     "grab": "tsx scripts/commands/epg/grab.ts",
     "purefusion:find-channel": "node custom/find-channel.mjs",
+    "purefusion:epg": "node custom/build-epg.mjs",
+    "purefusion:validate": "node custom/validate-guide.mjs",
     "lint": "npx eslint \"{scripts,tests,sites}/**/*.{ts,mts,js}\"",
     "test": "cross-env TZ=Pacific/Nauru npx jest --runInBand",
     "postinstall": "npm run api:load",
