@@ -1,0 +1,76 @@
+name: PureFusion USA EPG
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: Days of listings to request (1-14)
+        required: false
+        default: "7"
+        type: string
+      maxConnections:
+        description: Concurrent source requests (1-5)
+        required: false
+        default: "5"
+        type: string
+  schedule:
+    - cron: "0 6 * * *"
+    - cron: "0 18 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: purefusion-usa-epg
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate and validate the USA guide
+        run: npm run purefusion:epg
+        env:
+          DAYS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.days || '7' }}
+          MAX_CONNECTIONS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.maxConnections || '5' }}
+
+      - name: Confirm the published guide
+        run: |
+          test -s public/guide.xml
+          test -s public/guide.xml.gz
+          test -s public/status.json
+          node custom/validate-guide.mjs public/guide.xml
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
