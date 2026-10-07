@@ -74,7 +74,7 @@ npm install
 npm run purefusion:epg
 ```
 
-Defaults are `DAYS=7` and `MAX_CONNECTIONS=5`. TVPassport, TVGuide, and Zap2it are configured for fewer days than 7. Extra days are requested, not invented. A day the source does not publish comes back empty or as a logged error.
+Defaults are `DAYS=7` and `MAX_CONNECTIONS=5`. The TVPassport scraper config is set to 3 days, and TVGuide and Zap2it are set to 2. The build still requests the `DAYS` value and keeps only programmes the source actually returns. A check of the CNN page on TVPassport still returned listing markup six days ahead; other channels may not. Nothing is invented to fill a gap.
 
 Concurrency is capped at 5. Scheduled runs use the same defaults.
 
