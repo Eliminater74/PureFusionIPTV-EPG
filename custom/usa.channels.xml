@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channels>
+  <channel site="tvpassport.com" site_id="abc--eastern/1224" lang="en" xmltv_id="ABC.us@East">ABC - Eastern</channel>
+  <channel site="tvpassport.com" site_id="amc--eastern-feed-hd/6219" lang="en" xmltv_id="AMC.us@East">AMC - Eastern Feed HD</channel>
+  <channel site="tvpassport.com" site_id="bravo-usa-hd--eastern-feed/6120" lang="en" xmltv_id="Bravo.us@East">Bravo USA HD - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="cartoon-network-usa--eastern-feed/661" lang="en" xmltv_id="CartoonNetwork.us@East">Cartoon Network USA - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="cbs--eastern/1225" lang="en" xmltv_id="CBS.us@East">CBS - Eastern</channel>
+  <channel site="tvpassport.com" site_id="cnbc-usa-hd/6119" lang="en" xmltv_id="CNBC.us@SD">CNBC USA HD</channel>
+  <channel site="tvpassport.com" site_id="cnn/70" lang="en" xmltv_id="CNN.us@SD">CNN</channel>
+  <channel site="tvpassport.com" site_id="comedy-central-hd--eastern-feed/6957" lang="en" xmltv_id="ComedyCentral.us@East">Comedy Central HD - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="discovery-channel-us--eastern-feed/649" lang="en" xmltv_id="DiscoveryChannel.us@East">Discovery Channel (US) - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="disney--eastern-feed/595" lang="en" xmltv_id="DisneyChannel.us@East">Disney - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="espn-hd/3036" lang="en" xmltv_id="ESPN.us@SD">ESPN HD</channel>
+  <channel site="tvpassport.com" site_id="food-network-usa-hd--eastern-feed/3438" lang="en" xmltv_id="FoodNetwork.us@East">Food Network USA HD - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="fox--eastern/1229" lang="en" xmltv_id="Fox.us@East">FOX - Eastern</channel>
+  <channel site="tvpassport.com" site_id="fox-news-hd/6207" lang="en" xmltv_id="FoxNewsChannel.us@SD">Fox News HD</channel>
+  <channel site="tvpassport.com" site_id="fox-wtvt-tampa-bay-fl-hd/6736" lang="en" xmltv_id="WTVT131.us@HD">FOX (WTVT) Tampa Bay, FL HD</channel>
+  <channel site="tvpassport.com" site_id="fx-networks-east-coast-hd/6111" lang="en" xmltv_id="FX.us@East">FX Networks East Coast HD</channel>
+  <channel site="tvpassport.com" site_id="hbo-hd--eastern-feed/627" lang="en" xmltv_id="HBO.us@East">HBO HD - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="hgtv-usa-hd--eastern/3690" lang="en" xmltv_id="HGTV.us@East">HGTV USA HD - Eastern</channel>
+  <channel site="tvpassport.com" site_id="msnbc-usa-hd/6995" lang="en" xmltv_id="MSNBC.us@SD">MS NOW HD</channel>
+  <channel site="tvpassport.com" site_id="nbc--network-eastern/1227" lang="en" xmltv_id="NBC.us@East">NBC - Network Eastern</channel>
+  <channel site="tvpassport.com" site_id="newsmax-tv/16818" lang="en" xmltv_id="NewsmaxTV.us@SD">NewsMax TV</channel>
+  <channel site="tvpassport.com" site_id="nickelodeon-usa--east-feed-hd/6342" lang="en" xmltv_id="Nickelodeon.us@East">Nickelodeon USA - East Feed HD</channel>
+  <channel site="tvpassport.com" site_id="pbs-weta-hd-washington-dc/8180" lang="en" xmltv_id="WETATV261.us@HD">PBS (WETA) HD Washington, DC</channel>
+  <channel site="tvpassport.com" site_id="syfy-hd--eastern-feed/5643" lang="en" xmltv_id="Syfy.us@East">Syfy HD - Eastern Feed</channel>
+  <channel site="tvpassport.com" site_id="tbs--east-hd/6090" lang="en" xmltv_id="TBS.us@East">TBS - East HD</channel>
+  <channel site="tvpassport.com" site_id="the-weather-channel-hd/5599" lang="en" xmltv_id="TheWeatherChannel.us@SD">The Weather Channel HD</channel>
+  <channel site="tvpassport.com" site_id="tlc-usa-hd--eastern/5004" lang="en" xmltv_id="TLC.us@East">TLC USA HD - Eastern</channel>
+  <channel site="tvpassport.com" site_id="tnt--eastern-feed/347" lang="en" xmltv_id="TNT.us@East">TNT - Eastern Feed</channel>
+</channels>
