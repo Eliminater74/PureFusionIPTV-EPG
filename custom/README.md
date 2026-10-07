@@ -1,12 +1,60 @@
 # PureFusion USA EPG
 
-This folder is the only lineup for the USA guide. It uses the existing iptv-org/epg scrapers and does not replace them. UK and Canadian channels are out of scope.
+USA-only XMLTV guide for PureFusionIPTV and IPTVEditor. The lineup is `custom/usa.channels.xml`. The scrapers stay in the upstream iptv-org/epg tree.
 
-The guide is published as XMLTV for PureFusionIPTV and for IPTVEditor's External EPG Source.
+## Raw guide links
 
-## Channel list
+Paste the gzip URL into PureFusionIPTV as an XMLTV source, and into IPTVEditor as an External EPG Source.
 
-Edit `custom/usa.channels.xml`. One `<channel>` is one guide entry.
+- Gzip guide: https://eliminater74.github.io/PureFusionIPTV-EPG/guide.xml.gz
+- Plain XML guide: https://eliminater74.github.io/PureFusionIPTV-EPG/guide.xml
+- Build status: https://eliminater74.github.io/PureFusionIPTV-EPG/status.json
+- Site index: https://eliminater74.github.io/PureFusionIPTV-EPG/
+
+`guide.xml.gz` is a real gzip XMLTV file. The `github-pages.zip` download on the Actions run is GitHub's internal deploy package. Do not use that file as the guide.
+
+GitHub Pages for this repo is set to build from GitHub Actions. The workflow refreshes the guide at 06:00 UTC and 18:00 UTC.
+
+## Configured channels
+
+28 channels. Every row is one line in `custom/usa.channels.xml`. All of them use `tvpassport.com`. The XMLTV id is the value players map against, so leave it alone once an app is using it.
+
+| Channel | XMLTV id | TVPassport site id |
+| --- | --- | --- |
+| ABC - Eastern | `ABC.us@East` | `abc--eastern/1224` |
+| AMC - Eastern Feed HD | `AMC.us@East` | `amc--eastern-feed-hd/6219` |
+| Bravo USA HD - Eastern Feed | `Bravo.us@East` | `bravo-usa-hd--eastern-feed/6120` |
+| Cartoon Network USA - Eastern Feed | `CartoonNetwork.us@East` | `cartoon-network-usa--eastern-feed/661` |
+| CBS - Eastern | `CBS.us@East` | `cbs--eastern/1225` |
+| CNBC USA HD | `CNBC.us@SD` | `cnbc-usa-hd/6119` |
+| CNN | `CNN.us@SD` | `cnn/70` |
+| Comedy Central HD - Eastern Feed | `ComedyCentral.us@East` | `comedy-central-hd--eastern-feed/6957` |
+| Discovery Channel (US) - Eastern Feed | `DiscoveryChannel.us@East` | `discovery-channel-us--eastern-feed/649` |
+| Disney - Eastern Feed | `DisneyChannel.us@East` | `disney--eastern-feed/595` |
+| ESPN HD | `ESPN.us@SD` | `espn-hd/3036` |
+| Food Network USA HD - Eastern Feed | `FoodNetwork.us@East` | `food-network-usa-hd--eastern-feed/3438` |
+| FOX - Eastern | `Fox.us@East` | `fox--eastern/1229` |
+| Fox News HD | `FoxNewsChannel.us@SD` | `fox-news-hd/6207` |
+| FOX (WTVT) Tampa Bay, FL HD | `Fox.us@WTVT` | `fox-wtvt-tampa-bay-fl-hd/6736` |
+| FX Networks East Coast HD | `FX.us@East` | `fx-networks-east-coast-hd/6111` |
+| HBO HD - Eastern Feed | `HBO.us@East` | `hbo-hd--eastern-feed/627` |
+| HGTV USA HD - Eastern | `HGTV.us@East` | `hgtv-usa-hd--eastern/3690` |
+| MS NOW HD | `MSNBC.us@HD` | `msnbc-usa-hd/6995` |
+| NBC - Network Eastern | `NBC.us@East` | `nbc--network-eastern/1227` |
+| NewsMax TV | `NewsmaxTV.us@SD` | `newsmax-tv/16818` |
+| Nickelodeon USA - East Feed HD | `Nickelodeon.us@East` | `nickelodeon-usa--east-feed-hd/6342` |
+| PBS (WETA) HD Washington, DC | `PBS.us@WETATV` | `pbs-weta-hd-washington-dc/8180` |
+| Syfy HD - Eastern Feed | `SYFY.us@East` | `syfy-hd--eastern-feed/5643` |
+| TBS - East HD | `TBS.us@East` | `tbs--east-hd/6090` |
+| The Weather Channel HD | `TheWeatherChannel.us@SD` | `the-weather-channel-hd/5599` |
+| TLC USA HD - Eastern | `TLC.us@East` | `tlc-usa-hd--eastern/5004` |
+| TNT - Eastern Feed | `TNT.us@East` | `tnt--eastern-feed/347` |
+
+Local stations use the network feed id from the iptv-org database. Tampa Bay Fox is `Fox.us@WTVT`. PBS Washington is `PBS.us@WETATV`. MS NOW stays `MSNBC.us@HD`. SYFY is `SYFY.us@East`.
+
+## Channel file
+
+One `<channel>` is one guide entry:
 
 ```xml
 <channel site="tvpassport.com" site_id="amc--eastern-feed-hd/6219" lang="en" xmltv_id="AMC.us@East">AMC - Eastern Feed HD</channel>
@@ -14,31 +62,21 @@ Edit `custom/usa.channels.xml`. One `<channel>` is one guide entry.
 
 | Attribute | Meaning |
 | --- | --- |
-| `site` | Scraper to use. Prefer `tvpassport.com`. |
+| `site` | Scraper. Prefer `tvpassport.com`. |
 | `site_id` | That site's channel id. Copy it from the site file. |
 | `lang` | Listing language, usually `en`. |
-| `xmltv_id` | Stable iptv-org id. Players map on this value. |
+| `xmltv_id` | Stable iptv-org id. |
 | text | Display name copied from the site file. |
 
-`xmltv_id` must stay stable. Use the id already published by iptv-org, including the feed when the database has one, such as `AMC.us@East` or `NewsmaxTV.us@SD`. Do not invent a PureFusion id.
+Keep each `xmltv_id` unique. Do not list the same id from two sites.
 
-A local station is usually a feed of its network. Tampa Bay Fox is `Fox.us@WTVT`, not `WTVT.us`, because `WTVT.us` is not an id in the current iptv-org database. Check a candidate with:
+Source order when you add a channel:
 
-```sh
-npm run channels:validate -- custom/usa.channels.xml
-```
+1. `tvpassport.com` for USA coverage. Its scraper config requests 3 days.
+2. `tvguide.com` when TVPassport has no listing. Its scraper config requests 2 days.
+3. `zap2it.com` only when the other two do not have the channel. Many Zap2it rows have an empty `xmltv_id`. Set an official id before copying one.
 
-Warnings about `wrong_channel_id` or `wrong_feed_id` mean the id should be corrected before you rely on it.
-
-Keep each `xmltv_id` unique. The same channel should not be scraped from TVPassport and TVGuide at the same time.
-
-### Source to prefer
-
-1. `tvpassport.com` for USA coverage. Its site config requests 3 days.
-2. `tvguide.com` when TVPassport has no listing. Its site config requests 2 days.
-3. `zap2it.com` only when the other two do not have the channel. Its site config requests 2 days, and many of its rows have an empty `xmltv_id`. Set an official id before copying one of those rows.
-
-There is no automatic fallback from one site to another. If a scrape fails, that channel contributes no programmes and the run is kept only when validation still passes.
+There is no automatic fallback. A failed channel contributes no programmes. The published guide is replaced only when validation passes.
 
 ### Find a channel
 
@@ -47,23 +85,26 @@ npm run purefusion:find-channel -- AMC
 npm run purefusion:find-channel -- "Newsmax" --site=tvpassport.com
 ```
 
-Copy one printed line into `usa.channels.xml`. Prefer an eastern or national HD row, and skip any line whose `xmltv_id` is empty. `--limit` defaults to 25 and can be raised up to 200.
+Copy one printed line into `custom/usa.channels.xml`. Prefer an eastern or national HD row. Skip a line whose `xmltv_id` is empty. `--limit` defaults to 25 and can be raised up to 200.
 
 ### Add a channel
 
 1. Search with `purefusion:find-channel`.
 2. Paste one `<channel>` line into `custom/usa.channels.xml`.
-3. Confirm the `xmltv_id` is unique and ends in `.us` before any `@feed`.
-4. Check the file:
+3. Confirm the `xmltv_id` is unique and the country code is `.us`.
+4. Add that channel to the table in this README.
+5. Check the file:
 
 ```sh
 npm run channels:lint -- custom/usa.channels.xml
 npm run channels:validate -- custom/usa.channels.xml
 ```
 
+`wrong_channel_id` or `wrong_feed_id` means the id does not match the current iptv-org database.
+
 ### Remove a channel
 
-Delete that `<channel>` line. The next successful build omits it. Leave the id unchanged on every channel you keep.
+Delete the `<channel>` line and its row in the table above. The next successful build omits it.
 
 ## Generate locally
 
@@ -74,9 +115,9 @@ npm install
 npm run purefusion:epg
 ```
 
-Defaults are `DAYS=7` and `MAX_CONNECTIONS=5`. The TVPassport scraper config is set to 3 days, and TVGuide and Zap2it are set to 2. The build still requests the `DAYS` value and keeps only programmes the source actually returns. A check of the CNN page on TVPassport still returned listing markup six days ahead; other channels may not. Nothing is invented to fill a gap.
+Defaults are `DAYS=7` and `MAX_CONNECTIONS=5`. The build requests that many days and keeps only programmes the source returns. TVPassport's own scraper config is 3 days, TVGuide and Zap2it are 2. A CNN page check still showed listing markup six days ahead. Other channels may not. Nothing is invented to fill a gap.
 
-Concurrency is capped at 5. Scheduled runs use the same defaults.
+`DAYS` must be 1-14. `MAX_CONNECTIONS` must be 1-5.
 
 PowerShell:
 
@@ -92,63 +133,40 @@ bash:
 DAYS=3 MAX_CONNECTIONS=3 npm run purefusion:epg
 ```
 
-`DAYS` must be 1-14. `MAX_CONNECTIONS` must be 1-5.
-
-The command writes nothing into `public/` until the guide passes validation. A failed run leaves the previous `public/guide.xml`, `public/guide.xml.gz`, and `public/status.json` untouched.
-
-Check an existing guide again with:
+A failed run leaves the previous `public/guide.xml`, `public/guide.xml.gz`, and `public/status.json` in place. Check a guide again with:
 
 ```sh
 npm run purefusion:validate
 ```
 
-Validation requires a non-empty well-formed XMLTV document, a `<tv>` root, at least one `<channel>`, at least one `<programme>`, a file of at least 8192 bytes, and a channel count that is at least half of `usa.channels.xml` and not larger than that list. It also requires at least as many programmes as channels.
+Validation requires a non-empty well-formed XMLTV document, a `<tv>` root, at least one `<channel>`, at least one `<programme>`, at least 8192 bytes, a channel count no larger than the lineup and at least half of it, and at least as many programmes as channels.
 
 ## GitHub Action
 
 Workflow: `.github/workflows/purefusion-usa-epg.yml`
 
-Schedule: 06:00 UTC and 18:00 UTC.
+- Schedule: 06:00 UTC and 18:00 UTC.
+- Manual run: Actions → PureFusion USA EPG → Run workflow.
+- Optional inputs: `days` (default 7) and `maxConnections` (default 5).
 
-Manual run: Actions → PureFusion USA EPG → Run workflow. Optional inputs are `days` (default 7) and `maxConnections` (default 5).
+The workflow uses Node.js 22 and `npm ci`, builds only this USA guide, validates it, writes the gzip and `status.json`, and deploys `public/` with the official Pages actions. It does not commit the XML into git.
 
-The workflow installs with `npm ci` on Node.js 22, builds only this USA guide, validates it, gzips it, writes `status.json`, and uploads `public/` with the official Pages actions. It does not commit the XML back to git.
-
-If generation or validation fails, the job fails before deployment. The previous GitHub Pages deployment stays online.
-
-## GitHub Pages
-
-In the repository settings, open Pages → Build and deployment, and set Source to **GitHub Actions**.
-
-For this fork the stable URLs are:
-
-- https://eliminater74.github.io/PureFusionIPTV-EPG/guide.xml
-- https://eliminater74.github.io/PureFusionIPTV-EPG/guide.xml.gz
-- https://eliminater74.github.io/PureFusionIPTV-EPG/status.json
-- https://eliminater74.github.io/PureFusionIPTV-EPG/
-
-The pattern for another owner or repository name is:
-
-`https://<github-user>.github.io/<repository>/guide.xml`
-
-Use `guide.xml` for PureFusionIPTV's XMLTV source and for IPTVEditor's External EPG Source. Use `guide.xml.gz` only when the client accepts gzip-compressed XMLTV. `status.json` is a small health file with the generation time, channel count, programme count, requested days, and `status: "ok"`. It has no credentials.
-
-The first successful workflow run creates the Pages site. Until that run finishes, the URLs do not exist yet.
+If generation or validation fails, the job stops before deployment. The previous Pages guide stays online.
 
 ## Update from upstream
 
-This fork tracks `upstream` at `https://github.com/iptv-org/epg.git`.
+This fork tracks `upstream` at https://github.com/iptv-org/epg.git.
 
 ```sh
 git fetch upstream
 git merge upstream/master
 ```
 
-Custom files live outside the scraper tree:
+Keep these on a conflict:
 
 - `custom/`
 - `public/index.html` and `public/.gitignore`
 - `.github/workflows/purefusion-usa-epg.yml`
 - the `purefusion:*` scripts in `package.json`
 
-Keep those on a conflict. Do not commit `public/guide.xml`, `public/guide.xml.gz`, or `public/status.json`.
+Do not commit `public/guide.xml`, `public/guide.xml.gz`, or `public/status.json`.
