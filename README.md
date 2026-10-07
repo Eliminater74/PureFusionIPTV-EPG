@@ -1,6 +1,58 @@
-# EPG [![update](https://github.com/iptv-org/epg/actions/workflows/update.yml/badge.svg)](https://github.com/iptv-org/epg/actions/workflows/update.yml)
+# PureFusion USA EPG
 
-Tools for downloading the EPG (Electronic Program Guide) for thousands of TV channels from hundreds of sources.
+USA-only XMLTV guide for PureFusionIPTV and IPTVEditor. The lineup is [`custom/usa.channels.xml`](custom/usa.channels.xml). Setup notes are in [`custom/README.md`](custom/README.md).
+
+## Raw guide links
+
+Paste the gzip URL into PureFusionIPTV as an XMLTV source, and into IPTVEditor as an External EPG Source.
+
+- Gzip guide: https://eliminater74.github.io/PureFusionIPTV-EPG/guide.xml.gz
+- Plain XML guide: https://eliminater74.github.io/PureFusionIPTV-EPG/guide.xml
+- Build status: https://eliminater74.github.io/PureFusionIPTV-EPG/status.json
+- Site index: https://eliminater74.github.io/PureFusionIPTV-EPG/
+
+`guide.xml.gz` is the guide. The `github-pages.zip` file on the Actions run is GitHub's internal deploy package, not the guide.
+
+The guide refreshes at 06:00 UTC and 18:00 UTC.
+
+## Configured channels
+
+28 channels, all from `tvpassport.com`. The XMLTV id is what players map against.
+
+| Channel | XMLTV id | TVPassport site id |
+| --- | --- | --- |
+| ABC - Eastern | `ABC.us@East` | `abc--eastern/1224` |
+| AMC - Eastern Feed HD | `AMC.us@East` | `amc--eastern-feed-hd/6219` |
+| Bravo USA HD - Eastern Feed | `Bravo.us@East` | `bravo-usa-hd--eastern-feed/6120` |
+| Cartoon Network USA - Eastern Feed | `CartoonNetwork.us@East` | `cartoon-network-usa--eastern-feed/661` |
+| CBS - Eastern | `CBS.us@East` | `cbs--eastern/1225` |
+| CNBC USA HD | `CNBC.us@SD` | `cnbc-usa-hd/6119` |
+| CNN | `CNN.us@SD` | `cnn/70` |
+| Comedy Central HD - Eastern Feed | `ComedyCentral.us@East` | `comedy-central-hd--eastern-feed/6957` |
+| Discovery Channel (US) - Eastern Feed | `DiscoveryChannel.us@East` | `discovery-channel-us--eastern-feed/649` |
+| Disney - Eastern Feed | `DisneyChannel.us@East` | `disney--eastern-feed/595` |
+| ESPN HD | `ESPN.us@SD` | `espn-hd/3036` |
+| Food Network USA HD - Eastern Feed | `FoodNetwork.us@East` | `food-network-usa-hd--eastern-feed/3438` |
+| FOX - Eastern | `Fox.us@East` | `fox--eastern/1229` |
+| Fox News HD | `FoxNewsChannel.us@SD` | `fox-news-hd/6207` |
+| FOX (WTVT) Tampa Bay, FL HD | `Fox.us@WTVT` | `fox-wtvt-tampa-bay-fl-hd/6736` |
+| FX Networks East Coast HD | `FX.us@East` | `fx-networks-east-coast-hd/6111` |
+| HBO HD - Eastern Feed | `HBO.us@East` | `hbo-hd--eastern-feed/627` |
+| HGTV USA HD - Eastern | `HGTV.us@East` | `hgtv-usa-hd--eastern/3690` |
+| MS NOW HD | `MSNBC.us@HD` | `msnbc-usa-hd/6995` |
+| NBC - Network Eastern | `NBC.us@East` | `nbc--network-eastern/1227` |
+| NewsMax TV | `NewsmaxTV.us@SD` | `newsmax-tv/16818` |
+| Nickelodeon USA - East Feed HD | `Nickelodeon.us@East` | `nickelodeon-usa--east-feed-hd/6342` |
+| PBS (WETA) HD Washington, DC | `PBS.us@WETATV` | `pbs-weta-hd-washington-dc/8180` |
+| Syfy HD - Eastern Feed | `SYFY.us@East` | `syfy-hd--eastern-feed/5643` |
+| TBS - East HD | `TBS.us@East` | `tbs--east-hd/6090` |
+| The Weather Channel HD | `TheWeatherChannel.us@SD` | `the-weather-channel-hd/5599` |
+| TLC USA HD - Eastern | `TLC.us@East` | `tlc-usa-hd--eastern/5004` |
+| TNT - Eastern Feed | `TNT.us@East` | `tnt--eastern-feed/347` |
+
+## Upstream EPG tools
+
+This repository is still a fork of [iptv-org/epg](https://github.com/iptv-org/epg). The sections below are the original grab tools.
 
 ## Table of contents
 
