@@ -19,6 +19,51 @@ const sources = [
     site: 'zap2it.com',
     file: 'sites/zap2it.com/zap2it.com.channels.xml',
     note: 'many entries have an empty xmltv_id'
+  },
+  {
+    site: 'tvtv.us',
+    file: 'sites/tvtv.us/tvtv.us.channels.xml',
+    note: 'US lineup ids missing from TVPassport'
+  },
+  {
+    site: 'ontvtonight.com',
+    file: 'sites/ontvtonight.com/ontvtonight.com_us.channels.xml',
+    note: 'US listings; skip empty xmltv_id and Canada rows'
+  },
+  {
+    site: 'pluto.tv',
+    file: 'sites/pluto.tv/pluto.tv_us.channels.xml',
+    note: 'Pluto TV US'
+  },
+  {
+    site: 'plex.tv',
+    file: 'sites/plex.tv/plex.tv_us.channels.xml',
+    note: 'Plex US'
+  },
+  {
+    site: 'xumo.tv',
+    file: 'sites/xumo.tv/xumo.tv.channels.xml',
+    note: 'Xumo; keep .us ids only'
+  },
+  {
+    site: 'distro.tv',
+    file: 'sites/distro.tv/distro.tv.channels.xml',
+    note: 'DistroTV US'
+  },
+  {
+    site: 'i.mjh.nz',
+    file: 'sites/i.mjh.nz/i.mjh.nz_samsung.channels.xml',
+    note: 'Samsung TV Plus; use a SamsungTVPlus/us site_id'
+  },
+  {
+    site: 'i.mjh.nz',
+    file: 'sites/i.mjh.nz/i.mjh.nz_pbs.channels.xml',
+    note: 'PBS stations'
+  },
+  {
+    site: 'i.mjh.nz',
+    file: 'sites/i.mjh.nz/i.mjh.nz_metv.channels.xml',
+    note: 'MeTV'
   }
 ]
 
@@ -58,7 +103,9 @@ if (!Number.isInteger(limit) || limit < 1 || limit > 200) {
 
 const selected = sources.filter(source => !siteFilter || source.site === siteFilter)
 if (selected.length === 0) {
-  console.error(`Unknown site "${siteFilter}". Use tvpassport.com, tvguide.com, or zap2it.com.`)
+    console.error(
+      `Unknown site "${siteFilter}". Use tvpassport.com, tvguide.com, zap2it.com, tvtv.us, ontvtonight.com, pluto.tv, plex.tv, xumo.tv, distro.tv, or i.mjh.nz.`
+    )
   process.exit(1)
 }
 
@@ -143,7 +190,14 @@ Examples:
   npm run purefusion:find-channel -- WTVT
 
 Sites, in preference order:
-  tvpassport.com   primary USA source
-  tvguide.com      official xmltv_id values, narrower coverage
-  zap2it.com       USA listings, xmltv_id often blank`)
+  tvpassport.com    primary USA source
+  tvguide.com       when TVPassport has no listing
+  zap2it.com        USA listings, xmltv_id often blank
+  tvtv.us           extra US lineup ids
+  ontvtonight.com   US file only
+  pluto.tv          Pluto TV US
+  plex.tv           Plex US
+  xumo.tv           keep .us ids only
+  distro.tv         DistroTV
+  i.mjh.nz          Samsung TV Plus US, PBS, MeTV`)
 }
