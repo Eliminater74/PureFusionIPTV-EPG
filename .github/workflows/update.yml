@@ -1,12 +1,15 @@
 name: update
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'
+  # schedule:
+  #   - cron: '0 0 * * *'
 permissions:
   contents: read
 jobs:
   main:
+    # Needs the iptv-org GitHub App and writes to iptv-org/api.
+    # The USA guide is published by purefusion-usa-epg.yml.
+    if: github.repository == 'iptv-org/epg'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
