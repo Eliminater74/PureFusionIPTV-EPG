@@ -1,0 +1,77 @@
+name: Cleanup workflow runs
+
+on:
+  workflow_dispatch:
+    inputs:
+      keep:
+        description: Successful runs to keep for each workflow
+        required: true
+        default: "5"
+        type: choice
+        options:
+          - "3"
+          - "5"
+  schedule:
+    - cron: "15 4 * * *"
+
+permissions:
+  actions: write
+
+concurrency:
+  group: cleanup-workflow-runs
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Delete failed runs and old successes
+        env:
+          KEEP: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.keep || '5' }}
+          GH_TOKEN: ${{ github.token }}
+          CURRENT_RUN: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          case "$KEEP" in
+            3|5) ;;
+            *)
+              echo "keep must be 3 or 5" >&2
+              exit 1
+              ;;
+          esac
+
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100" > /tmp/runs.json
+
+          jq -r \
+            --argjson keep "$KEEP" \
+            --argjson current "$CURRENT_RUN" \
+            '
+              [ .[].workflow_runs[] ]
+              | map(select(.status == "completed" and .id != $current))
+              | group_by(.workflow_id)
+              | map(
+                  (
+                    [ .[] | select(.conclusion == "success") ]
+                    | sort_by(.created_at)
+                    | reverse
+                    | .[$keep:]
+                  )
+                  +
+                  [ .[] | select(.conclusion != "success") ]
+                )
+              | flatten
+              | .[]
+              | [.id, .conclusion, .name]
+              | @tsv
+            ' /tmp/runs.json > /tmp/delete.tsv
+
+          deleted=0
+          while IFS=$'\t' read -r id conclusion name; do
+            [ -n "$id" ] || continue
+            echo "delete ${id} ${conclusion} ${name}"
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/actions/runs/${id}" > /dev/null
+            deleted=$((deleted + 1))
+          done < /tmp/delete.tsv
+
+          echo "deleted ${deleted} run(s); kept the ${KEEP} newest successes for each workflow"

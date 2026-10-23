@@ -3656,6 +3656,14 @@ The upstream `update` and `format` workflows belong to iptv-org/epg. They need t
 
 If generation or validation fails, the job stops before deployment. The previous Pages guide stays online.
 
+Workflow: `.github/workflows/cleanup-runs.yml`
+
+- Schedule: 04:15 UTC.
+- Manual run: Actions → Cleanup workflow runs → Run workflow.
+- Input: `keep` is `5` or `3`. The schedule uses 5.
+
+That job deletes every completed run that did not succeed, including failed, cancelled, and timed-out runs. For each workflow it keeps the newest successes and deletes the older ones. A run that is still in progress stays. Deleting a run does not remove the guide already published to Pages.
+
 ## Update from upstream
 
 This fork tracks `upstream` at https://github.com/iptv-org/epg.git.
@@ -3670,6 +3678,7 @@ Keep these on a conflict:
 - `custom/`
 - `public/index.html` and `public/.gitignore`
 - `.github/workflows/purefusion-usa-epg.yml`
+- `.github/workflows/cleanup-runs.yml`
 - `.github/workflows/update.yml` and `.github/workflows/format.yml` (skipped unless the repo is iptv-org/epg)
 - the `purefusion:*` scripts in `package.json`
 
