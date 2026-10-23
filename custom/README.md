@@ -1520,6 +1520,8 @@ Workflow: `.github/workflows/purefusion-usa-epg.yml`
 
 The workflow uses Node.js 22 and `npm ci`, builds only this USA guide, validates it, writes the gzip and `status.json`, and deploys `public/` with the official Pages actions. It does not commit the XML into git.
 
+The upstream `update` and `format` workflows belong to iptv-org/epg. They need that project's GitHub App, and `update` pushes into iptv-org/api. On this fork those jobs are skipped, and the `update` schedule is turned off. The USA guide only comes from PureFusion USA EPG.
+
 If generation or validation fails, the job stops before deployment. The previous Pages guide stays online.
 
 ## Update from upstream
@@ -1536,6 +1538,7 @@ Keep these on a conflict:
 - `custom/`
 - `public/index.html` and `public/.gitignore`
 - `.github/workflows/purefusion-usa-epg.yml`
+- `.github/workflows/update.yml` and `.github/workflows/format.yml` (skipped unless the repo is iptv-org/epg)
 - the `purefusion:*` scripts in `package.json`
 
 Do not commit `public/guide.xml`, `public/guide.xml.gz`, or `public/status.json`.
