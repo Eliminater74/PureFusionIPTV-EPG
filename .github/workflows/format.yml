@@ -7,6 +7,8 @@ permissions:
   packages: read
 jobs:
   main:
+    # Needs the iptv-org GitHub App. Channel files on this fork are maintained by hand.
+    if: github.repository == 'iptv-org/epg'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
